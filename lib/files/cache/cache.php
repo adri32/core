@@ -99,7 +99,7 @@ class Cache {
 	 * @return array
 	 */
 	public function get($file) {
-		if (is_string($file) or $file === '') {
+		if (is_string($file) or $file == '') {
 			$where = 'WHERE `storage` = ? AND `path_hash` = ?';
 			$params = array($this->getNumericStorageId(), md5($file));
 		} else { //file id
