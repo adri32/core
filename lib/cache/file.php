@@ -72,7 +72,7 @@ class OC_Cache_File{
 		if($storage and $storage->is_dir('/')) {
 			$dh=$storage->opendir('/');
 			while($file=readdir($dh)) {
-				if($file!='.' and $file!='..' and ($prefix==='' || strpos($file, $prefix) === 0)) {
+				if($file !== '.' and $file !== '..' and ($prefix === '' || strpos($file, $prefix) === 0)) {
 					$storage->unlink('/'.$file);
 				}
 			}
@@ -86,7 +86,7 @@ class OC_Cache_File{
 			$now = time();
 			$dh=$storage->opendir('/');
 			while($file=readdir($dh)) {
-				if($file!='.' and $file!='..') {
+				if($file !== '.' and $file !== '..') {
 					$mtime = $storage->filemtime('/'.$file);
 					if ($mtime < $now) {
 						$storage->unlink('/'.$file);

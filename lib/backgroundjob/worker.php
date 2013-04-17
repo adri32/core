@@ -71,7 +71,7 @@ class OC_BackgroundJob_Worker{
 	public static function doNextStep() {
 		$laststep = OC_Appconfig::getValue( 'core', 'backgroundjobs_step', 'regular_tasks' );
 
-		if( $laststep == 'regular_tasks' ) {
+		if( $laststep === 'regular_tasks' ) {
 			// get last app
 			$lasttask = OC_Appconfig::getValue( 'core', 'backgroundjobs_task', '' );
 
@@ -90,7 +90,7 @@ class OC_BackgroundJob_Worker{
 				}
 			}
 
-			if( $done == false ) {
+			if( $done === false ) {
 				// Next time load queued tasks
 				OC_Appconfig::setValue( 'core', 'backgroundjobs_step', 'queued_tasks' );
 			}
