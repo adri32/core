@@ -31,11 +31,11 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	}
 
 	public function is_dir($path) {
-		return $this->filetype($path) == 'dir';
+		return $this->filetype($path) === 'dir';
 	}
 
 	public function is_file($path) {
-		return $this->filetype($path) == 'file';
+		return $this->filetype($path) === 'file';
 	}
 
 	public function filesize($path) {
@@ -101,7 +101,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			return false;
 		}
 		$size = $this->filesize($path);
-		if ($size == 0) {
+		if ($size === 0) {
 			return '';
 		}
 		return fread($handle, $size);
@@ -148,7 +148,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		} else {
 			$directoryHandle = $this->opendir(\OCP\USER::getUser() . '/' . $directory);
 			while ($contents = readdir($directoryHandle)) {
-				if ($contents != '.' && $contents != '..') {
+				if ($contents !== '.' && $contents !== '..') {
 					$path = $directory . "/" . $contents;
 					if ($this->is_dir($path)) {
 						$this->deleteAll($path);
@@ -158,7 +158,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 				}
 			}
 			//$this->closedir( $directoryHandle ); // TODO: implement closedir in OC_FSV
-			if ($empty == false) {
+			if ($empty === false) {
 				if (!$this->rmdir($directory)) {
 					return false;
 				}
@@ -250,7 +250,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		$dh = $this->opendir($dir);
 		if ($dh) {
 			while ($item = readdir($dh)) {
-				if ($item == '.' || $item == '..') continue;
+				if ($item === '.' || $item === '..') continue;
 				if (strstr(strtolower($item), strtolower($query)) !== false) {
 					$files[] = $dir . '/' . $item;
 				}
@@ -342,15 +342,15 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	 * @return string cleaned path
 	 */
 	public function cleanPath($path) {
-		if (strlen($path) == 0 or $path[0] != '/') {
+		if (strlen($path) === 0 or $path[0] !== '/') {
 			$path = '/' . $path;
 		}
 
 		$output = array();
 		foreach (explode('/', $path) as $chunk) {
-			if ($chunk == '..') {
+			if ($chunk === '..') {
 				array_pop($output);
-			} else if ($chunk == '.') {
+			} else if ($chunk === '.') {
 			} else {
 				$output[] = $chunk;
 			}
