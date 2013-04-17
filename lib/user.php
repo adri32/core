@@ -164,11 +164,11 @@ class OC_User {
 				.' "a-z", "A-Z", "0-9", and "_.@-"');
 		}
 		// No empty username
-		if(trim($uid) == '') {
+		if(trim($uid) === '') {
 			throw new Exception('A valid username must be provided');
 		}
 		// No empty password
-		if(trim($password) == '') {
+		if(trim($password) === '') {
 			throw new Exception('A valid password must be provided');
 		}
 

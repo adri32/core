@@ -30,7 +30,7 @@ class OC_Updater{
 	 */
 	public static function check() {
 		OC_Appconfig::setValue('core', 'lastupdatedat', microtime(true));
-		if(OC_Appconfig::getValue('core', 'installedat', '')=='') {
+		if(OC_Appconfig::getValue('core', 'installedat', '') === '') {
 			OC_Appconfig::setValue('core', 'installedat', microtime(true));
 		}
 

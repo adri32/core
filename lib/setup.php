@@ -40,12 +40,12 @@ class OC_Setup {
 			$options['directory'] = OC::$SERVERROOT."/data";
 		}
 
-		if($dbtype == 'mysql' or $dbtype == 'pgsql' or $dbtype == 'oci' or $dbtype == 'mssql') { //mysql and postgresql needs more config options
-			if($dbtype == 'mysql')
+		if($dbtype === 'mysql' or $dbtype === 'pgsql' or $dbtype === 'oci' or $dbtype === 'mssql') { //mysql and postgresql needs more config options
+			if($dbtype === 'mysql')
 				$dbprettyname = 'MySQL';
-			else if($dbtype == 'pgsql')
+			else if($dbtype === 'pgsql')
 				$dbprettyname = 'PostgreSQL';
-			else if ($dbtype == 'mssql')
+			else if ($dbtype === 'mssql')
 				$dbprettyname = 'MS SQL Server';
 			else
 				$dbprettyname = 'Oracle';
@@ -60,12 +60,12 @@ class OC_Setup {
 			if(substr_count($options['dbname'], '.') >= 1) {
 				$error[] = $l->t("%s you may not use dots in the database name", array($dbprettyname));
 			}
-			if($dbtype != 'oci' && empty($options['dbhost'])) {
+			if($dbtype !== 'oci' && empty($options['dbhost'])) {
 				$error[] = $l->t("%s set the database host.", array($dbprettyname));
 			}
 		}
 
-		if(count($error) == 0) { //no errors, good
+		if(count($error) === 0) { //no errors, good
 			$username = htmlspecialchars_decode($options['adminlogin']);
 			$password = htmlspecialchars_decode($options['adminpass']);
 			$datadir = htmlspecialchars_decode($options['directory']);
@@ -75,7 +75,7 @@ class OC_Setup {
 			}
 
 			//use sqlite3 when available, otherise sqlite2 will be used.
-			if($dbtype=='sqlite' and class_exists('SQLite3')) {
+			if($dbtype === 'sqlite' and class_exists('SQLite3')) {
 				$dbtype='sqlite3';
 			}
 
@@ -87,7 +87,7 @@ class OC_Setup {
 			OC_Config::setValue('datadirectory', $datadir);
 			OC_Config::setValue('dbtype', $dbtype);
 			OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
-			if($dbtype == 'mysql') {
+			if($dbtype === 'mysql') {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];
 				$dbname = $options['dbname'];
@@ -114,7 +114,7 @@ class OC_Setup {
 					return($error);
 				}
 			}
-			elseif($dbtype == 'pgsql') {
+			elseif($dbtype === 'pgsql') {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];
 				$dbname = $options['dbname'];
@@ -135,7 +135,7 @@ class OC_Setup {
 					return $error;
 				}
 			}
-			elseif($dbtype == 'oci') {
+			elseif($dbtype === 'oci') {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];
 				$dbname = $options['dbname'];
@@ -158,7 +158,7 @@ class OC_Setup {
 					return $error;
 				}
 			}
-			elseif ($dbtype == 'mssql') {
+			elseif ($dbtype === 'mssql') {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];
 				$dbname = $options['dbname'];
@@ -199,7 +199,7 @@ class OC_Setup {
 				$error[] = 'Error while trying to create admin user: ' . $exception->getMessage();
 			}
 
-			if(count($error) == 0) {
+			if(count($error) === 0) {
 				OC_Appconfig::setValue('core', 'installedat', microtime(true));
 				OC_Appconfig::setValue('core', 'lastupdatedat', microtime(true));
 				OC_AppConfig::setValue('core', 'remote_core.css', '/core/minimizer.php');
@@ -272,7 +272,7 @@ class OC_Setup {
 		if($result) {
 			$row=mysql_fetch_row($result);
 		}
-		if(!$result or $row[0]==0) {
+		if(!$result or $row[0] === 0) {
 			OC_DB::createDbFromStructure('db_structure.xml');
 		}
 		mysql_close($connection);
@@ -374,7 +374,7 @@ class OC_Setup {
 		if($result) {
 			$row = pg_fetch_row($result);
 		}
-		if(!$result or $row[0]==0) {
+		if(!$result or $row[0] === 0) {
 			OC_DB::createDbFromStructure('db_structure.xml');
 		}
 	}
@@ -447,7 +447,7 @@ class OC_Setup {
 		$e_host = addslashes($dbhost);
 		$e_dbname = addslashes($dbname);
 		//check if the database user has admin right
-		if ($e_host == '') {
+		if ($e_host === '') {
 			$easy_connect_string = $e_dbname; // use dbname as easy connect name
 		} else {
 			$easy_connect_string = '//'.$e_host.'/'.$e_dbname;
@@ -515,7 +515,7 @@ class OC_Setup {
 		$e_host = addslashes($dbhost);
 		$e_dbname = addslashes($dbname);
 
-		if ($e_host == '') {
+		if ($e_host === '') {
 			$easy_connect_string = $e_dbname; // use dbname as easy connect name
 		} else {
 			$easy_connect_string = '//'.$e_host.'/'.$e_dbname;
@@ -538,7 +538,7 @@ class OC_Setup {
 		if($result) {
 			$row = oci_fetch_row($stmt);
 		}
-		if(!$result or $row[0]==0) {
+		if(!$result or $row[0] === 0) {
 			OC_DB::createDbFromStructure('db_structure.xml');
 		}
 	}
@@ -628,7 +628,7 @@ class OC_Setup {
 		$masterConnection = @sqlsrv_connect($dbhost, $masterConnectionInfo);
 		if(!$masterConnection) {
 			$entry = null;
-			if( ($errors = sqlsrv_errors() ) != null) {
+			if( ($errors = sqlsrv_errors() ) !== null) {
 				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
 			} else {
 				$entry = '';
@@ -654,7 +654,7 @@ class OC_Setup {
 		$query = "SELECT * FROM master.sys.server_principals WHERE name = '".$name."';";
 		$result = sqlsrv_query($connection, $query);
 		if ($result === false) {
-			if ( ($errors = sqlsrv_errors() ) != null) {
+			if ( ($errors = sqlsrv_errors() ) !== null) {
 				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
 			} else {
 				$entry = '';
@@ -665,7 +665,7 @@ class OC_Setup {
 			$row = sqlsrv_fetch_array($result);
 
 			if ($row === false) {
-				if ( ($errors = sqlsrv_errors() ) != null) {
+				if ( ($errors = sqlsrv_errors() ) !== null) {
 					$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
 				} else {
 					$entry = '';
@@ -673,11 +673,11 @@ class OC_Setup {
 				$entry.='Offending command was: '.$query.'<br />';
 				\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
 			} else {
-				if ($row == null) {
+				if ($row === null) {
 					$query = "CREATE LOGIN [".$name."] WITH PASSWORD = '".$password."';";
 					$result = sqlsrv_query($connection, $query);
 					if (!$result or $result === false) {
-						if ( ($errors = sqlsrv_errors() ) != null) {
+						if ( ($errors = sqlsrv_errors() ) !== null) {
 							$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
 						} else {
 							$entry = '';
@@ -694,7 +694,7 @@ class OC_Setup {
 		$query = "SELECT * FROM [".$dbname."].sys.database_principals WHERE name = '".$name."';";
 		$result = sqlsrv_query($connection, $query);
 		if ($result === false) {
-			if ( ($errors = sqlsrv_errors() ) != null) {
+			if ( ($errors = sqlsrv_errors() ) !== null) {
 				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
 			} else {
 				$entry = '';
@@ -705,7 +705,7 @@ class OC_Setup {
 			$row = sqlsrv_fetch_array($result);
 
 			if ($row === false) {
-				if ( ($errors = sqlsrv_errors() ) != null) {
+				if ( ($errors = sqlsrv_errors() ) !== null) {
 					$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
 				} else {
 					$entry = '';
@@ -713,11 +713,11 @@ class OC_Setup {
 				$entry.='Offending command was: '.$query.'<br />';
 				\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
 			} else {
-				if ($row == null) {
+				if ($row === null) {
 					$query = "USE [".$dbname."]; CREATE USER [".$name."] FOR LOGIN [".$name."];";
 					$result = sqlsrv_query($connection, $query);
 					if (!$result || $result === false) {
-						if ( ($errors = sqlsrv_errors() ) != null) {
+						if ( ($errors = sqlsrv_errors() ) !== null) {
 							$entry = 'DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
 						} else {
 							$entry = '';
@@ -730,7 +730,7 @@ class OC_Setup {
 				$query = "USE [".$dbname."]; EXEC sp_addrolemember 'db_owner', '".$name."';";
 				$result = sqlsrv_query($connection, $query);
 				if (!$result || $result === false) {
-					if ( ($errors = sqlsrv_errors() ) != null) {
+					if ( ($errors = sqlsrv_errors() ) !== null) {
 						$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
 					} else {
 						$entry = '';
@@ -746,7 +746,7 @@ class OC_Setup {
 		$query = "CREATE DATABASE [".$dbname."];";
 		$result = sqlsrv_query($connection, $query);
 		if (!$result || $result === false) {
-			if ( ($errors = sqlsrv_errors() ) != null) {
+			if ( ($errors = sqlsrv_errors() ) !== null) {
 				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
 			} else {
 				$entry = '';
@@ -765,7 +765,7 @@ class OC_Setup {
 		$query = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{$dbname}' AND TABLE_NAME = '{$dbtableprefix}users'";
 		$result = sqlsrv_query($connection, $query);
 		if ($result === false) {
-			if ( ($errors = sqlsrv_errors() ) != null) {
+			if ( ($errors = sqlsrv_errors() ) !== null) {
 				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
 			} else {
 				$entry = '';
@@ -776,7 +776,7 @@ class OC_Setup {
 			$row = sqlsrv_fetch_array($result);
 
 			if ($row === false) {
-				if ( ($errors = sqlsrv_errors() ) != null) {
+				if ( ($errors = sqlsrv_errors() ) !== null) {
 					$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
 				} else {
 					$entry = '';
@@ -784,7 +784,7 @@ class OC_Setup {
 				$entry.='Offending command was: '.$query.'<br />';
 				\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
 			} else {
-				if ($row == null) {
+				if ($row === null) {
 					OC_DB::createDbFromStructure('db_structure.xml');
 				}
 			}
